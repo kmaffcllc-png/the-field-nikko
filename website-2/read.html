@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Read The Field — A Story About Finding Your Own Way</title>
+<meta name="description" content="Read the full book online — The Field by Herb and Nikko Perez. A story for young soccer players about finding your own way.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --navy: #0B1A3A;
+  --navy-deep: #060E22;
+  --gold: #C17817;
+  --cyan: #4DD0E1;
+  --magenta: #D946EF;
+  --cream: #F8F4EC;
+  --paper: #FEFCF7;
+  --text: #1a1a2e;
+  --text-soft: #3A3A4A;
+  --muted: #6B7280;
+  --border: #E5E1D6;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--text);
+  background: var(--cream);
+  line-height: 1.75;
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ============ PROGRESS BAR ============ */
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--cyan), var(--magenta));
+  z-index: 200;
+  transition: width 0.1s;
+  width: 0;
+}
+
+/* ============ SIDEBAR ============ */
+.sidebar {
+  width: 320px;
+  flex-shrink: 0;
+  background: var(--navy);
+  color: white;
+  padding: 32px 24px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  box-shadow: 4px 0 20px rgba(0,0,0,0.08);
+}
+
+.sidebar::-webkit-scrollbar { width: 6px; }
+.sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 3px; }
+
+.sidebar-header {
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  margin-bottom: 24px;
+}
+
+.sidebar-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: white;
+  line-height: 1.1;
+  margin-bottom: 6px;
+}
+
+.sidebar-subtitle {
+  font-size: 0.82rem;
+  color: var(--cyan);
+  font-style: italic;
+  margin-bottom: 14px;
+}
+
+.sidebar-home {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255,255,255,0.6);
+  font-size: 0.8rem;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.sidebar-home:hover { color: var(--gold); }
+
+.sidebar nav ul {
+  list-style: none;
+}
+
+.sidebar nav li {
+  margin-bottom: 2px;
+}
+
+.sidebar nav a {
+  display: block;
+  padding: 10px 14px;
+  color: rgba(255,255,255,0.75);
+  text-decoration: none;
+  font-size: 0.92rem;
+  border-radius: 6px;
+  transition: all 0.2s;
+  line-height: 1.35;
+  cursor: pointer;
+}
+
+.sidebar nav a:hover {
+  background: rgba(255,255,255,0.06);
+  color: white;
+}
+
+.sidebar nav a.active {
+  background: rgba(193, 120, 23, 0.15);
+  color: var(--gold);
+  border-left: 3px solid var(--gold);
+  padding-left: 11px;
+}
+
+.sidebar nav a .ch-num {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 2px;
+  font-weight: 500;
+}
+
+.sidebar nav a.active .ch-num { color: var(--gold); opacity: 0.8; }
+
+.sidebar nav a .ch-title {
+  font-weight: 500;
+}
+
+.sidebar-cta {
+  margin-top: 32px;
+  padding: 20px;
+  background: rgba(193, 120, 23, 0.1);
+  border: 1px solid rgba(193, 120, 23, 0.3);
+  border-radius: 10px;
+  text-align: center;
+}
+
+.sidebar-cta p {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.sidebar-cta a {
+  display: inline-block;
+  background: var(--gold);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 999px;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: background 0.2s;
+}
+
+.sidebar-cta a:hover { background: #D98A2B; }
+
+/* Mobile menu toggle */
+.menu-toggle {
+  display: none;
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 150;
+  background: var(--navy);
+  color: white;
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  font-size: 1.4rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* ============ MAIN CONTENT ============ */
+main {
+  flex: 1;
+  padding: 60px 60px 100px;
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.chapter-header {
+  margin-bottom: 40px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.chapter-num {
+  font-size: 0.85rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.chapter-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+}
+
+.chapter-image {
+  width: 100%;
+  border-radius: 12px;
+  margin: 40px 0;
+  box-shadow: 0 12px 40px rgba(11, 26, 58, 0.15);
+}
+
+.chapter-content {
+  font-size: 1.1rem;
+  color: var(--text-soft);
+}
+
+.chapter-content p {
+  margin-bottom: 20px;
+}
+
+.chapter-content h3.parable-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  color: var(--gold);
+  text-align: center;
+  margin: 48px 0 24px;
+  font-weight: 700;
+}
+
+.chapter-content h4 {
+  font-family: 'Playfair Display', serif;
+  color: var(--navy);
+  margin: 32px 0 12px;
+  font-size: 1.25rem;
+}
+
+.chapter-content ul {
+  margin-left: 24px;
+  margin-bottom: 20px;
+}
+
+.chapter-content ul li {
+  margin-bottom: 8px;
+}
+
+.chapter-content .inline-q {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1.25rem;
+  color: var(--navy);
+  text-align: center;
+  border-left: none;
+  padding: 16px 40px;
+  margin: 24px 0;
+  line-height: 1.5;
+}
+
+.chapter-content .inline-img {
+  width: 100%;
+  max-width: 560px;
+  display: block;
+  margin: 24px auto;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(11, 26, 58, 0.12);
+}
+
+/* Koan block */
+.koan {
+  background: var(--navy);
+  color: white;
+  padding: 32px 24px;
+  border-radius: 12px;
+  margin: 40px 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.koan::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(77, 208, 225, 0.15) 0%, transparent 60%),
+    radial-gradient(circle at 80% 70%, rgba(217, 70, 239, 0.12) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.koan-label {
+  position: relative;
+  font-size: 0.85rem;
+  letter-spacing: 3px;
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+}
+
+.koan-text {
+  position: relative;
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1.35rem;
+  line-height: 1.5;
+  color: white;
+}
+
+/* Talk About It / Lesson callouts */
+.callout {
+  padding: 24px 28px;
+  border-radius: 10px;
+  margin: 24px 0;
+}
+
+.callout.talk {
+  background: #FDF6E7;
+  border-left: 4px solid #D4A24C;
+}
+
+.callout.lesson {
+  background: #EAF3EA;
+  border-left: 4px solid #5A8C5A;
+}
+
+.callout-label {
+  font-weight: 700;
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.callout.talk .callout-label { color: #8B6914; }
+.callout.lesson .callout-label { color: #2E5D2E; }
+
+.callout p {
+  margin-bottom: 0;
+  color: var(--text-soft);
+  font-size: 1.05rem;
+}
+
+/* ============ CHAPTER NAV BUTTONS ============ */
+.chapter-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 60px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+}
+
+.nav-btn {
+  flex: 1;
+  padding: 18px 24px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--text);
+  transition: all 0.2s;
+  cursor: pointer;
+  display: block;
+}
+
+.nav-btn:hover {
+  border-color: var(--gold);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(11, 26, 58, 0.08);
+}
+
+.nav-btn.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.nav-btn .nav-direction {
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.nav-btn.next { text-align: right; }
+
+.nav-btn .nav-label {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  color: var(--navy);
+  font-size: 1.05rem;
+}
+
+/* Book-end message */
+.book-end {
+  text-align: center;
+  padding: 60px 20px;
+  margin-top: 40px;
+  background: linear-gradient(135deg, rgba(193, 120, 23, 0.05), rgba(77, 208, 225, 0.05));
+  border-radius: 16px;
+}
+
+.book-end h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  color: var(--navy);
+  margin-bottom: 16px;
+}
+
+.book-end p {
+  color: var(--muted);
+  margin-bottom: 24px;
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.book-end .btn {
+  display: inline-block;
+  background: var(--gold);
+  color: white;
+  padding: 14px 32px;
+  border-radius: 999px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.2s;
+}
+.book-end .btn:hover { transform: translateY(-2px); }
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 900px) {
+  body { display: block; }
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    height: 100vh;
+    z-index: 140;
+    transition: left 0.3s;
+    width: 280px;
+  }
+  .sidebar.open { left: 0; }
+  .menu-toggle { display: block; }
+  main { padding: 70px 24px 80px; }
+  .chapter-title { font-size: 2rem; }
+  .chapter-content { font-size: 1rem; }
+}
+
+@media (max-width: 520px) {
+  main { padding: 70px 16px 60px; }
+  .koan { padding: 24px 16px; }
+  .koan-text { font-size: 1.1rem; }
+  .callout { padding: 20px; }
+  .chapter-content .inline-q { padding: 12px 20px; font-size: 1.1rem; }
+}
+
+/* Print styles */
+@media print {
+  .sidebar, .menu-toggle, .chapter-nav, .progress-bar, .book-end { display: none; }
+  main { max-width: none; padding: 0; }
+  body { background: white; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+
+<button class="menu-toggle" id="menuToggle" aria-label="Menu">☰</button>
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-title">The Field</div>
+    <div class="sidebar-subtitle">A Story About Finding Your Own Way</div>
+    <a href="index.html" class="sidebar-home">← Back to Home</a>
+  </div>
+
+  <nav>
+    <ul id="chapterList"></ul>
+  </nav>
+
+  <div class="sidebar-cta">
+    <p>Love the book? Get the illustrated paperback with workbook.</p>
+    <a href="#" id="amazonLink">Buy on Amazon</a>
+  </div>
+</aside>
+
+<main>
+  <article id="chapter">
+    <!-- Chapter content injected here -->
+  </article>
+
+  <div class="chapter-nav" id="chapterNav">
+    <!-- Prev / Next buttons -->
+  </div>
+</main>
+
+<script src="book-content.js"></script>
+<script>
+let currentIndex = 0;
+
+// Build sidebar
+function buildSidebar() {
+  const list = document.getElementById('chapterList');
+  list.innerHTML = BOOK.chapters.map((ch, i) => `
+    <li>
+      <a data-idx="${i}">
+        <span class="ch-num">${ch.num}</span>
+        <span class="ch-title">${ch.title}</span>
+      </a>
+    </li>
+  `).join('');
+  list.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      loadChapter(parseInt(a.dataset.idx));
+      document.getElementById('sidebar').classList.remove('open');
+    });
+  });
+}
+
+// Load a chapter
+function loadChapter(idx) {
+  if (idx < 0 || idx >= BOOK.chapters.length) return;
+  currentIndex = idx;
+  const ch = BOOK.chapters[idx];
+
+  const imgHTML = ch.image ? `<img src="images/${ch.image}" class="chapter-image" alt="${ch.title} illustration">` : '';
+
+  document.getElementById('chapter').innerHTML = `
+    <div class="chapter-header">
+      <div class="chapter-num">${ch.num}</div>
+      <h1 class="chapter-title">${ch.title}</h1>
+    </div>
+    ${imgHTML}
+    <div class="chapter-content">${ch.content}</div>
+  `;
+
+  // Update sidebar active state
+  document.querySelectorAll('#chapterList a').forEach(a => {
+    a.classList.toggle('active', parseInt(a.dataset.idx) === idx);
+  });
+
+  // Build prev/next nav
+  buildChapterNav();
+
+  // Scroll to top and save to URL
+  window.scrollTo({ top: 0, behavior: 'instant' });
+  history.replaceState(null, '', `#${ch.id}`);
+
+  // Save progress
+  localStorage.setItem('thefield_lastchapter', ch.id);
+}
+
+function buildChapterNav() {
+  const nav = document.getElementById('chapterNav');
+  const prev = BOOK.chapters[currentIndex - 1];
+  const next = BOOK.chapters[currentIndex + 1];
+  const isLast = currentIndex === BOOK.chapters.length - 1;
+
+  let html = '';
+  if (prev) {
+    html += `<a class="nav-btn prev" data-idx="${currentIndex - 1}">
+      <div class="nav-direction">← Previous</div>
+      <div class="nav-label">${prev.title}</div>
+    </a>`;
+  } else {
+    html += `<span class="nav-btn disabled">
+      <div class="nav-direction">← Previous</div>
+      <div class="nav-label">Beginning</div>
+    </span>`;
+  }
+
+  if (next) {
+    html += `<a class="nav-btn next" data-idx="${currentIndex + 1}">
+      <div class="nav-direction">Next →</div>
+      <div class="nav-label">${next.title}</div>
+    </a>`;
+  } else {
+    html += `<span class="nav-btn disabled next">
+      <div class="nav-direction">The End</div>
+      <div class="nav-label">Thank you for reading</div>
+    </span>`;
+  }
+
+  nav.innerHTML = html;
+  nav.querySelectorAll('a[data-idx]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      loadChapter(parseInt(a.dataset.idx));
+    });
+  });
+
+  // Add end-of-book message on last chapter
+  const existingEnd = document.querySelector('.book-end');
+  if (existingEnd) existingEnd.remove();
+  if (isLast) {
+    const end = document.createElement('div');
+    end.className = 'book-end';
+    end.innerHTML = `
+      <h3>The question is the path. Keep walking.</h3>
+      <p>Thank you for reading The Field. If the story meant something to you, consider picking up the paperback — it includes a complete training journal and workbook to help young players live these lessons.</p>
+      <a href="#" class="btn" id="finalAmazonLink">Get the Paperback on Amazon</a>
+    `;
+    document.querySelector('main').insertBefore(end, nav.nextSibling);
+  }
+}
+
+// Progress bar
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+  document.getElementById('progress').style.width = scrolled + '%';
+});
+
+// Mobile menu
+document.getElementById('menuToggle').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('open');
+});
+
+// Keyboard navigation
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' && currentIndex < BOOK.chapters.length - 1) {
+    loadChapter(currentIndex + 1);
+  } else if (e.key === 'ArrowLeft' && currentIndex > 0) {
+    loadChapter(currentIndex - 1);
+  }
+});
+
+// Init — load from URL hash, or last-read chapter, or first chapter
+function init() {
+  buildSidebar();
+  const hash = window.location.hash.replace('#', '');
+  const saved = localStorage.getItem('thefield_lastchapter');
+  let startIdx = 0;
+  if (hash) {
+    const found = BOOK.chapters.findIndex(c => c.id === hash);
+    if (found >= 0) startIdx = found;
+  } else if (saved) {
+    const found = BOOK.chapters.findIndex(c => c.id === saved);
+    if (found >= 0) startIdx = found;
+  }
+  loadChapter(startIdx);
+}
+
+init();
+</script>
+</body>
+</html>
